@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { User } from "../../components/card/user";
 import { add } from "../../redux/reduser/user-reduser";
 import { useDispatch, useSelector } from "react-redux";
+import { saveState, loadState } from "../../config/localstor";
 
 export const UserPage = () => {
   const { register, reset, handleSubmit } = useForm();
@@ -14,8 +15,8 @@ export const UserPage = () => {
   const [postUser] = usePostUsersMutation();
   const { data, isLoading } = useGetUserQuery(page);
   const dispatch = useDispatch();
-  const  user  = useSelector((state) => state);
-  console.log(user);
+  const { user } = useSelector((state) => state);
+  saveState("user", user);
 
   const submit = (data) => {
     postUser(data)
@@ -31,8 +32,9 @@ export const UserPage = () => {
   const buttons = Array(data?.pageSize).fill(null);
 
   const addUser = (id) => {
-    let res = data.data.find((i) => i.id === id);
+    let res = data?.data?.find((i) => i.id === id);
     dispatch(add(res));
+
   };
 
   return (
@@ -59,7 +61,10 @@ export const UserPage = () => {
       ) : (
         data?.data?.map((item) => {
           return (
-            <div className="flex justify-between items-center border border-gray-500 mb-1 rounded-lg px-2">
+            <div
+              key={item.id}
+              className="flex justify-between items-center border border-gray-500 mb-1 rounded-lg px-2"
+            >
               <User key={item.id} {...item} />
               <button
                 onClick={() => addUser(item.id)}

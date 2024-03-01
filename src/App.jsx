@@ -9,12 +9,16 @@ import { UserSinglePage } from "./pages/usersinglepage/user-single-page";
 function App() {
   return (
     <div>
-      <Link to={"/users"}>User</Link>
+      <div className="container flex justify-around py-3">
+        <Link to={"/"}>Home</Link>
+        <Link to={"/users"}>User</Link>
+        <Link to={"/usersingle"}>SinglePage</Link>
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/todo/:id" element={<SingleData />} />
         <Route path="/users" element={<UserPage />} />
-        <Route path="/users/:id" element={<UserSinglePage />} />
+        <Route path="/usersingle" element={<UserSinglePage />} />
       </Routes>
     </div>
   );

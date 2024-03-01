@@ -1,20 +1,17 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useGetSingleUserQuery } from "../../redux/service/user-api";
 
 export const UserSinglePage = () => {
-    const {id} = useParams();
-    const {data, isLoading} = useGetSingleUserQuery(id);
-    console.log(data);
+  const { user } = useSelector((state) => state);
+  const { data, isLoading } = useGetSingleUserQuery();
+
+ console.log(user);
   return (
-    <div className="container">
-      {isLoading ? (
-        <h1 className="text-4xl">Loading...</h1>
-      ) : (
-        <div>
-          <h2>{data?.firstName}</h2>
-        </div>
-      )}
-    </div>
+   <div className="container">
+     {user?.user?.map((item)=> {
+      return <h1 className="text-4xl">{item.lastName}</h1>
+     })}
+   </div>
   );
 };
